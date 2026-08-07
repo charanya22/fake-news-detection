@@ -117,3 +117,5 @@ B.Tech CSE Student
 ---
 
 ## ⭐ If you like this project, don't forget to star this repository!
+## 🚀Live Demo
+[Open the Fake News Detection App]https://fake-news-detection-zuxj49kcr7iistfrznvjkq.streamlit.app/
