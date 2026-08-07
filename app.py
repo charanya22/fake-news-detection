@@ -19,7 +19,7 @@ st.markdown("""
 .title{
     text-align:center;
     color:#1E4B7A;
-    font-size:40px;
+    font-size:42px;
     font-weight:bold;
 }
 
@@ -30,60 +30,30 @@ st.markdown("""
     margin-bottom:20px;
 }
 
-.stTextArea textarea{
-    border-radius:12px;
-    border:1px solid #C5D9EA;
-}
-
 .stButton>button{
     width:100%;
     background-color:#2E6DA4;
     color:white;
     border:none;
-    border-radius:12px;
+    border-radius:10px;
     font-weight:bold;
-    height:50px;
 }
 
 .stButton>button:hover{
     background-color:#245785;
-}
-
-.result-real{
-    background:#E6F7ED;
-    border-left:6px solid #22A559;
-    border-radius:12px;
-    padding:20px;
-}
-
-.result-fake{
-    background:#FDECEC;
-    border-left:6px solid #E5484D;
-    border-radius:12px;
-    padding:20px;
-}
-
-.result-label{
-    font-size:24px;
-    font-weight:bold;
-}
-
-.confidence-text{
-    font-size:16px;
-    color:#555;
+    color:white;
 }
 
 .footer{
     text-align:center;
-    color:gray;
+    color:#7A7A7A;
     font-size:14px;
-    margin-top:20px;
+    margin-top:30px;
 }
 
 </style>
 """, unsafe_allow_html=True)
 
-# ---------------- Load Model ----------------
 # ---------------- Load Model ----------------
 @st.cache_resource
 def load_model():
@@ -97,22 +67,51 @@ def load_model():
         return model, vectorizer
 
     except Exception as e:
-        st.error(f"Error loading model: {e}")
+        st.error(f"❌ Error loading model: {e}")
         st.stop()
 
 model, vectorizer = load_model()
+
+# ---------------- Sidebar ----------------
+with st.sidebar:
+    st.header("ℹ About")
+
+    st.write(
+        "This application predicts whether a news article is **Real** or **Fake** "
+        "using **Machine Learning** and **Natural Language Processing (NLP)**."
+    )
+
+    st.divider()
+
+    st.subheader("🛠 Technologies")
+
+    st.markdown("""
+- Python
+- Streamlit
+- Scikit-learn
+- TF-IDF Vectorizer
+- Logistic Regression
+""")
+
+    st.divider()
+
+    st.subheader("👩‍💻 Developer")
+    st.write("**K. S. Charanya**")
+
 # ---------------- Header ----------------
 st.markdown(
-    "<div class='title'>📰 Fake News Detection System</div>",
+    '<div class="title">📰 Fake News Detection System</div>',
     unsafe_allow_html=True
 )
 
 st.markdown(
-    "<div class='subtitle'>Analyze news articles using Machine Learning and Natural Language Processing (NLP).</div>",
+    '<div class="subtitle">Analyze news articles using Machine Learning and Natural Language Processing (NLP).</div>',
     unsafe_allow_html=True
 )
 
-st.info("💡 Enter a complete news article below and click **Analyze Article** to predict whether it is Real or Fake.")
+st.info(
+    "💡 Enter a complete news article below and click **Analyze Article** to predict whether it is **Real** or **Fake**."
+)
 
 # ---------------- Input ----------------
 left, center, right = st.columns([0.5, 7, 0.5])
@@ -134,43 +133,26 @@ if analyze:
         st.warning("⚠ Please enter a news article.")
 
     else:
-
-        st.subheader("📊 Prediction Result")
-
         transformed = vectorizer.transform([news])
         prediction = model.predict(transformed)[0]
         confidence = model.predict_proba(transformed).max() * 100
 
+        st.subheader("📊 Prediction Result")
+
         if prediction == 1:
-
-            st.markdown(f"""
-            <div class="result-real">
-                <div class="result-label">✅ This appears to be REAL News</div>
-                <div class="confidence-text">
-                    Confidence: {confidence:.2f}%
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
-
-            st.progress(int(confidence))
-
+            st.success(f"✅ This appears to be REAL News\n\nConfidence: {confidence:.2f}%")
         else:
+            st.error(f"❌ This appears to be FAKE News\n\nConfidence: {confidence:.2f}%")
 
-            st.markdown(f"""
-            <div class="result-fake">
-                <div class="result-label">❌ This appears to be FAKE News</div>
-                <div class="confidence-text">
-                    Confidence: {confidence:.2f}%
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
+        st.progress(int(confidence))
 
-            st.progress(int(confidence))
+        if confidence >= 90:
+            st.balloons()
+
+        st.divider()
 
 # ---------------- Footer ----------------
-st.divider()
-
 st.markdown(
-    "<div class='footer'>Developed by K. S. Charanya | Fake News Detection using Machine Learning</div>",
+    '<div class="footer">Developed by <b>K. S. Charanya</b> • Fake News Detection using Machine Learning</div>',
     unsafe_allow_html=True
 )
