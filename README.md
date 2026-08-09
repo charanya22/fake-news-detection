@@ -53,11 +53,11 @@ Fake-News-Detection/
 
 ### Home Page
 
-![Home](screenshots/home.png)
+![Home](screenshots/Home.png)
 
 ### Prediction
 
-![Prediction](screenshots/prediction.png)
+![Prediction](screenshots/Prediction.png)
 
 ---
 
