@@ -43,8 +43,8 @@ Fake-News-Detection/
 │   ├── Fake.csv
 │   └── True.csv
 ├── screenshots/
-│   ├── home.png
-│   └── prediction.png
+│   ├── Home.png
+│   └── Prediction.png
 ```
 
 ---
